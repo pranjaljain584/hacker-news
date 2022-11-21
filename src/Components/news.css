@@ -1,3 +1,22 @@
 .news-item {
-    background-color: brown;
+    /* background-color: brown; */
+    border-bottom: 1.5px solid rgb(61, 188, 61);
+    margin-left: 5%;
+    height: 15%;
+    margin-bottom: 1%;
+    width: 90%;
+}
+
+.link{
+    text-decoration: none;
+    color: black;
+}
+
+h3{
+    display: inline;
+}
+
+.desc{
+    display: flex;
+    justify-content: space-between;
 }

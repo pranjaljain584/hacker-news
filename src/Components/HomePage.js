@@ -133,7 +133,7 @@ function HomePage(props) {
             <News key={key} id={0} searchActivate={searchActivate} item={item} />
           )) 
           : 
-          allStoryIds.slice(count,count+20).map(id => (
+          allStoryIds.slice(count,count+20).map((id) => (
             <News key={id} id={id} searchActivate={searchActivate} item="" />
           ))}
           <button onClick={() => {
