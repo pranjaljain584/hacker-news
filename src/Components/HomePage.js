@@ -26,6 +26,7 @@ function HomePage(props) {
 
   const handleTime = (e) => {
     setTime(e.target.value) ;
+    handleSearch(e,searchText,e.target.value,tag) ;
   }
 
   const handleSort = (e) => {
@@ -36,6 +37,12 @@ function HomePage(props) {
     setTag(e.target.value);
     handleSearch(e,searchText,time,e.target.value) ;
   };
+
+  const onChange = (e) => {
+    setSearchText(e.target.value) ;
+    handleSearch(e,e.target.value,time,tag) ;
+  }
+
 
   const fetchAllStories = async () => {
     const result = await axios.get(`https://hacker-news.firebaseio.com/v0/newstories.json`) ;
@@ -49,20 +56,43 @@ function HomePage(props) {
       setSearchActivate(false) ;
       return ;
     }
-    // console.log('here') ;
+
     const searchType = time2 !== 'all time' ? 'search_by_date' : 'search' ;
     const searchTag = tag2 == 'all' ? '' : tag2 ;
-    // console.log(tag) ;
-    const searchResult = await axios.get(`${BASE_PATH}${searchType}?query=${searchText2}&tags=${searchTag}`) ;
-    // console.log(searchResult) ; 
+
+    const currentDateTime = new Date();
+    const resultInSeconds=currentDateTime.getTime() / 1000;
+    let timestmp ;
+
+    switch (time2) {
+      case "last 24h":
+        timestmp = resultInSeconds - 24*60*60 ;
+        break;
+      case "past week":
+        timestmp = resultInSeconds - 7*24*60*60 ;
+        break;
+      case "past month":
+        timestmp = resultInSeconds - 30*24*60*60 ;
+        break;
+      case "past year":
+        timestmp = resultInSeconds - 365*24*60*60 ;
+        break;
+    
+      default:
+        timestmp=0 ;
+        break;
+    }
+
+    let searchResult ;
+    if(searchType=='search'){
+      searchResult = await axios.get(`${BASE_PATH}${searchType}?query=${searchText2}&tags=${searchTag}`) ;
+    }else{
+      searchResult = await axios.get(`${BASE_PATH}${searchType}?query=${searchText2}&tags=${searchTag}&numericFilters=created_at_i>${timestmp}`) ;
+    }
+
     setResultList(searchResult.data.hits) ;
     setSearchActivate(true) ;
     setCtr((prev) => prev+1) ;
-  }
-
-  const onChange = (e) => {
-    setSearchText(e.target.value) ;
-    handleSearch(e,e.target.value,time,tag) ;
   }
 
   useEffect(() => {
