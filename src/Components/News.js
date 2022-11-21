@@ -9,7 +9,7 @@ function News({id,searchActivate,item}) {
     const fetchStoryById = async () => {
         const result = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`) ;
         setStory(result.data) ;
-        console.log(result.data) ;
+        // console.log(result.data) ;
     }
 
     const mapTime = timestamp => {
@@ -48,14 +48,15 @@ function News({id,searchActivate,item}) {
     useEffect(() => {
         !searchActivate && fetchStoryById() ;
         searchActivate && setStory(item) ;
+        // console.log(item) ;
     },[]) ;
 
     return story && 
         <div className="news-item">
         <p><a className="link" href={story.url}> <h3> {story?.title} </h3> </a> </p>
         {/* <span> ({story?.url}) </span>  */}
-        <p className="desc"> <span> {story?.score} point{story?.score>1 && 's'} </span> 
-            <span>  <b>Posted:</b> {mapTime(story?.time)} <b>By:</b> {story?.by} </span>
+        <p className="desc"> <span> { searchActivate ? `${story?.points}` : story?.score} point{story?.points>1 && 's'} {story?.score>1 && !searchActivate && 's' } </span> 
+            <span>  <b>Posted:</b> { searchActivate ? mapTime(story?.created_at_i) : mapTime(story?.time)} <b>By:</b> {searchActivate ? story?.author : story?.by} </span>
         </p>
      </div>
      ;

@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import './homepage.css';
+import { sortBy } from 'lodash';
 import {
   faSquareH,
   faSearch
@@ -16,7 +17,7 @@ function HomePage(props) {
   const [count,setCount] = useState(0) ;
   const [searchText,setSearchText] = useState('') ;
   const [tag, setTag] = useState('story');
-  const [sortBy,setSortBy] = useState('popularity') ;
+  const [sort,setSortBy] = useState('popularity') ;
   const [time,setTime] = useState('all time') ;
   const [resultList,setResultList] = useState([]) ;
   const [searchActivate,setSearchActivate] = useState(false) ;
@@ -26,7 +27,15 @@ function HomePage(props) {
   }
 
   const handleSort = (e) => {
+    console.log(sortBy) ;
     setSortBy(e.target.value) ;
+    const sortParameter = e.target.value == "date" ? 'created_at_i' : 'points' ;
+    console.log(sortParameter) ;
+    const sortedList = sortBy(resultList, sortParameter);
+    setResultList(sortedList) ;
+    console.log(resultList) ;
+    console.log(sortedList) ;
+    // setResultList([]) ;
   }
 
   const handleChange = (event) => {
@@ -55,6 +64,10 @@ function HomePage(props) {
   useEffect(() => {
     fetchAllStories() ;
   },[]) ; 
+
+  // useEffect(() => {
+
+  // },[sortBy]) ;
 
   return (
     <div>
@@ -101,13 +114,7 @@ function HomePage(props) {
             </select>
           </label>
 
-          <label>
-            by
-            <select value={sortBy} onChange={handleSort}>
-              <option value="date">Date</option>
-              <option value="popularity">Popularity</option>
-            </select>
-          </label>
+          
 
           <label>
             for
@@ -125,7 +132,14 @@ function HomePage(props) {
           </button>
 
         </form>
-      
+
+        <label>
+            Sort by
+            <select value={sort} onChange={handleSort}>
+              <option value="date">Date</option>
+              <option value="popularity">Popularity</option>
+            </select>
+          </label>
       </div>
 
       <div className='news-list'>
