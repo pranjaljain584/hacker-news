@@ -9,7 +9,6 @@ function News({id,searchActivate,item,sort}) {
     const fetchStoryById = async () => {
         const result = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`) ;
         setStory(result.data) ;
-        // console.log(result.data) ;
     }
 
     const mapTime = timestamp => {
@@ -48,7 +47,6 @@ function News({id,searchActivate,item,sort}) {
     useEffect(() => {
         !searchActivate && fetchStoryById() ;
         searchActivate && setStory(item) ;
-        // console.log(item) ;
     },[sort]) ;
 
     return story && 

@@ -119,7 +119,7 @@ function HomePage(props) {
           <li><a href="" onClick={() => {setSearchActivate(false)}}>Past</a></li>
           <li><a href="" onClick={() => {setSearchActivate(false)}}>Comments</a></li>
           <li><a href="" onClick={() => {setSearchActivate(false)}}>Ask</a></li>
-          <li><a href="" onClick={() => {setSearchActivate(false)}}>Show</a></li>
+          {/* <li><a href="" onClick={() => {setSearchActivate(false)}}>Show</a></li> */}
         </ul>
         </div>
 
@@ -127,7 +127,6 @@ function HomePage(props) {
 
       <div className='filters'>
         <form onSubmit={(e) => handleSearch(e,searchText,time,tag)} >
-          {/* <FontAwesomeIcon icon={faSearch} className="icon2" /> */}
           <input
             type="text"
             onChange={onChange}
@@ -137,7 +136,7 @@ function HomePage(props) {
           />
 
           <label>
-            <select value={tag} onChange={handleChange}>
+            <select value={tag} className='dropdown' onChange={handleChange}>
               <option value="all">All</option>
               <option value="story">Stories</option>
               <option value="comment">Comments</option>
@@ -148,7 +147,7 @@ function HomePage(props) {
 
           <label>
             for
-            <select value={time} onChange={handleTime}>
+            <select value={time} className='dropdown' onChange={handleTime}>
               <option value="all time">All time</option>
               <option value="last 24h">Last 24h</option>
               <option value="past week">Past Week</option>
@@ -157,40 +156,48 @@ function HomePage(props) {
             </select>
           </label>
 
-          <button type='Submit'>
+          <label className='sort'>
+            sort by
+            <select className='dropdown' value={sort} onChange={handleSort}>
+              <option className='option' value="created_at_i">Date</option>
+              <option className='option' value="points">Popularity</option>
+            </select>
+          </label>
+
+          <button type='Submit' className='search-btn'>
             Search
+          <FontAwesomeIcon icon={faSearch} className="icon2" />
           </button>
 
         </form>
 
-        <label>
-            Sort by
-            <select value={sort} onChange={handleSort}>
-              <option value="created_at_i">Date</option>
-              <option value="points">Popularity</option>
-            </select>
-          </label>
+        
       </div>
 
       <div className='news-list'>
           { searchActivate && resultList ? sortBy(resultList,sort).reverse().map((item,key) => (
             <News 
             key={key+30*ctr} 
-            // key={key}
             sort={sort} id={0} 
             searchActivate={searchActivate} item={item}
             />
           )) 
           : 
-          allStoryIds.slice(count,count+20).map((id) => (
+          <>
+          {allStoryIds.slice(count,count+20).map((id) => (
             <News key={id} id={id} searchActivate={searchActivate} item="" />
           ))}
+
           <button onClick={() => {
             if(count+20>500) return ;
             setCount(count+20) ;
-          }}> 
-          More.. {count}
+          }}
+          className="more-btn"
+          > 
+            More..
           </button>
+          </>
+          }
       </div>
     </div>
   );
