@@ -1,0 +1,27 @@
+.tab{
+    background-color: rebeccapurple;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.name{
+    background-color: aqua;
+}
+
+.icon {
+    color: white;
+    display: inline;
+    font-size: 2rem;
+}
+
+.hackernews{
+    display: inline;
+}
+
+.filters{
+    background-color: orange;
+}
+
+.news-list{
+    background-color: darkolivegreen;
+}
