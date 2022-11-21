@@ -11,13 +11,14 @@ import News from './News';
 
 const BASE_PATH = 'http://hn.algolia.com/api/v1/' ;
 
+
 function HomePage(props) {
 
   const [allStoryIds, setAllStoryIds] = useState([]) ;
   const [count,setCount] = useState(0) ;
   const [searchText,setSearchText] = useState('') ;
   const [tag, setTag] = useState('story');
-  const [sort,setSortBy] = useState('popularity') ;
+  const [sort,setSortBy] = useState('points') ;
   const [time,setTime] = useState('all time') ;
   const [resultList,setResultList] = useState([]) ;
   const [searchActivate,setSearchActivate] = useState(false) ;
@@ -27,15 +28,10 @@ function HomePage(props) {
   }
 
   const handleSort = (e) => {
-    console.log(sortBy) ;
+    const copy = [...resultList] ;
+    sortBy(copy,e.target.value) ;
     setSortBy(e.target.value) ;
-    const sortParameter = e.target.value == "date" ? 'created_at_i' : 'points' ;
-    console.log(sortParameter) ;
-    const sortedList = sortBy(resultList, sortParameter);
-    setResultList(sortedList) ;
-    console.log(resultList) ;
-    console.log(sortedList) ;
-    // setResultList([]) ;
+    setResultList(copy) ;
   }
 
   const handleChange = (event) => {
@@ -136,14 +132,14 @@ function HomePage(props) {
         <label>
             Sort by
             <select value={sort} onChange={handleSort}>
-              <option value="date">Date</option>
-              <option value="popularity">Popularity</option>
+              <option value="created_at_i">Date</option>
+              <option value="points">Popularity</option>
             </select>
           </label>
       </div>
 
       <div className='news-list'>
-          { searchActivate ? resultList?.map((item,key) => (
+          { searchActivate && resultList ? resultList.map((item,key) => (
             <News key={key} id={0} searchActivate={searchActivate} item={item} />
           )) 
           : 
