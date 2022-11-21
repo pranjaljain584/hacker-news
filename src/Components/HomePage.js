@@ -22,6 +22,7 @@ function HomePage(props) {
   const [time,setTime] = useState('all time') ;
   const [resultList,setResultList] = useState([]) ;
   const [searchActivate,setSearchActivate] = useState(false) ;
+  const [ctr,setCtr] = useState(1) ;
 
   const handleTime = (e) => {
     setTime(e.target.value) ;
@@ -31,8 +32,9 @@ function HomePage(props) {
     setSortBy(e.target.value) ;
   }
 
-  const handleChange = (event) => {
-    setTag(event.target.value);
+  const handleChange = (e) => {
+    setTag(e.target.value);
+    handleSearch(e,time,e.target.value) ;
   };
 
   const fetchAllStories = async () => {
@@ -40,16 +42,17 @@ function HomePage(props) {
     setAllStoryIds(result.data) ;
   }
 
-  const handleSearch = async (e) => {
+  const handleSearch = async (e,time2,tag2) => {
     e.preventDefault() ;
-    console.log('here') ;
-    const searchType = time !== 'all time' ? 'search_by_date' : 'search' ;
-    const searchTag = tag == 'all' ? '' : tag ;
-    console.log(tag) ;
+    // console.log('here') ;
+    const searchType = time2 !== 'all time' ? 'search_by_date' : 'search' ;
+    const searchTag = tag2 == 'all' ? '' : tag2 ;
+    // console.log(tag) ;
     const searchResult = await axios.get(`${BASE_PATH}${searchType}?query=${searchText}&tags=${searchTag}`) ;
-    console.log(searchResult) ; 
+    // console.log(searchResult) ; 
     setResultList(searchResult.data.hits) ;
     setSearchActivate(true) ;
+    setCtr((prev) => prev+1) ;
   }
 
   const onChange = (e) => {
@@ -87,7 +90,7 @@ function HomePage(props) {
       </div>
 
       <div className='filters'>
-        <form onSubmit={handleSearch} >
+        <form onSubmit={(e) => handleSearch(e,time,tag)} >
           {/* <FontAwesomeIcon icon={faSearch} className="icon2" /> */}
           <input
             type="text"
@@ -135,7 +138,12 @@ function HomePage(props) {
 
       <div className='news-list'>
           { searchActivate && resultList ? sortBy(resultList,sort).reverse().map((item,key) => (
-            <News key={key} sort={sort} tag={tag} id={0} searchActivate={searchActivate} item={item} />
+            <News 
+            key={key+30*ctr} 
+            // key={key}
+            sort={sort} id={0} 
+            searchActivate={searchActivate} item={item}
+            />
           )) 
           : 
           allStoryIds.slice(count,count+20).map((id) => (

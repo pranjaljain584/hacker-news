@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import './news.css' ;
 
-function News({id,searchActivate,item,sort,tag}) {
+function News({id,searchActivate,item,sort}) {
 
     const [story,setStory] = useState() ;
 
@@ -48,11 +48,12 @@ function News({id,searchActivate,item,sort,tag}) {
     useEffect(() => {
         !searchActivate && fetchStoryById() ;
         searchActivate && setStory(item) ;
-    },[sort,tag]) ;
+        // console.log(item) ;
+    },[sort]) ;
 
     return story && 
         <div className="news-item">
-        <p><a className="link" href={story.url}> <h3> {story?.title} </h3> </a> </p>
+        <p><a className="link" href={story.url}> <h3> { story?.title=='' || story?.title==null ? story?.comment_text : story?.title} </h3> </a> </p>
         {/* <span> ({story?.url}) </span>  */}
         <p className="desc"> <span> { searchActivate ? `${story?.points}` : story?.score} point{story?.points>1 && 's'} {story?.score>1 && !searchActivate && 's' } </span> 
             <span>  <b>Posted:</b> { searchActivate ? mapTime(story?.created_at_i) : mapTime(story?.time)} <b>By:</b> {searchActivate ? story?.author : story?.by} </span>
