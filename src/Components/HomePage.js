@@ -28,10 +28,7 @@ function HomePage(props) {
   }
 
   const handleSort = (e) => {
-    const copy = [...resultList] ;
-    sortBy(copy,e.target.value) ;
     setSortBy(e.target.value) ;
-    setResultList(copy) ;
   }
 
   const handleChange = (event) => {
@@ -45,8 +42,10 @@ function HomePage(props) {
 
   const handleSearch = async (e) => {
     e.preventDefault() ;
+    console.log('here') ;
     const searchType = time !== 'all time' ? 'search_by_date' : 'search' ;
     const searchTag = tag == 'all' ? '' : tag ;
+    console.log(tag) ;
     const searchResult = await axios.get(`${BASE_PATH}${searchType}?query=${searchText}&tags=${searchTag}`) ;
     console.log(searchResult) ; 
     setResultList(searchResult.data.hits) ;
@@ -60,10 +59,6 @@ function HomePage(props) {
   useEffect(() => {
     fetchAllStories() ;
   },[]) ; 
-
-  // useEffect(() => {
-
-  // },[sortBy]) ;
 
   return (
     <div>
@@ -139,8 +134,8 @@ function HomePage(props) {
       </div>
 
       <div className='news-list'>
-          { searchActivate && resultList ? resultList.map((item,key) => (
-            <News key={key} id={0} searchActivate={searchActivate} item={item} />
+          { searchActivate && resultList ? sortBy(resultList,sort).reverse().map((item,key) => (
+            <News key={key} sort={sort} tag={tag} id={0} searchActivate={searchActivate} item={item} />
           )) 
           : 
           allStoryIds.slice(count,count+20).map((id) => (

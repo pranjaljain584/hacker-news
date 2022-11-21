@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import './news.css' ;
 
-function News({id,searchActivate,item}) {
+function News({id,searchActivate,item,sort,tag}) {
 
     const [story,setStory] = useState() ;
 
@@ -48,8 +48,7 @@ function News({id,searchActivate,item}) {
     useEffect(() => {
         !searchActivate && fetchStoryById() ;
         searchActivate && setStory(item) ;
-        // console.log(item) ;
-    },[]) ;
+    },[sort,tag]) ;
 
     return story && 
         <div className="news-item">
