@@ -34,7 +34,7 @@ function HomePage(props) {
 
   const handleChange = (e) => {
     setTag(e.target.value);
-    handleSearch(e,time,e.target.value) ;
+    handleSearch(e,searchText,time,e.target.value) ;
   };
 
   const fetchAllStories = async () => {
@@ -42,13 +42,18 @@ function HomePage(props) {
     setAllStoryIds(result.data) ;
   }
 
-  const handleSearch = async (e,time2,tag2) => {
+  const handleSearch = async (e,searchText2,time2,tag2) => {
     e.preventDefault() ;
+
+    if(searchText2==''){
+      setSearchActivate(false) ;
+      return ;
+    }
     // console.log('here') ;
     const searchType = time2 !== 'all time' ? 'search_by_date' : 'search' ;
     const searchTag = tag2 == 'all' ? '' : tag2 ;
     // console.log(tag) ;
-    const searchResult = await axios.get(`${BASE_PATH}${searchType}?query=${searchText}&tags=${searchTag}`) ;
+    const searchResult = await axios.get(`${BASE_PATH}${searchType}?query=${searchText2}&tags=${searchTag}`) ;
     // console.log(searchResult) ; 
     setResultList(searchResult.data.hits) ;
     setSearchActivate(true) ;
@@ -57,6 +62,7 @@ function HomePage(props) {
 
   const onChange = (e) => {
     setSearchText(e.target.value) ;
+    handleSearch(e,e.target.value,time,tag) ;
   }
 
   useEffect(() => {
@@ -90,7 +96,7 @@ function HomePage(props) {
       </div>
 
       <div className='filters'>
-        <form onSubmit={(e) => handleSearch(e,time,tag)} >
+        <form onSubmit={(e) => handleSearch(e,searchText,time,tag)} >
           {/* <FontAwesomeIcon icon={faSearch} className="icon2" /> */}
           <input
             type="text"
