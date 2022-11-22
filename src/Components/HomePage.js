@@ -9,7 +9,7 @@ import {
 import axios from 'axios';
 import News from './News';
 
-const BASE_PATH = 'http://hn.algolia.com/api/v1/' ;
+const BASE_PATH = 'https://hn.algolia.com/api/v1/' ;
 
 
 function HomePage(props) {
@@ -52,13 +52,13 @@ function HomePage(props) {
   const handleSearch = async (e,searchText2,time2,tag2) => {
     e.preventDefault() ;
 
-    if(searchText2==''){
+    if(searchText2===''){
       setSearchActivate(false) ;
       return ;
     }
 
     const searchType = time2 !== 'all time' ? 'search_by_date' : 'search' ;
-    const searchTag = tag2 == 'all' ? '' : tag2 ;
+    const searchTag = tag2 === 'all' ? '' : tag2 ;
 
     const currentDateTime = new Date();
     const resultInSeconds=currentDateTime.getTime() / 1000;
@@ -84,7 +84,7 @@ function HomePage(props) {
     }
 
     let searchResult ;
-    if(searchType=='search'){
+    if(searchType==='search'){
       searchResult = await axios.get(`${BASE_PATH}${searchType}?query=${searchText2}&tags=${searchTag}`) ;
     }else{
       searchResult = await axios.get(`${BASE_PATH}${searchType}?query=${searchText2}&tags=${searchTag}&numericFilters=created_at_i>${timestmp}`) ;
