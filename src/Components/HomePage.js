@@ -23,6 +23,7 @@ function HomePage(props) {
   const [resultList,setResultList] = useState([]) ;
   const [searchActivate,setSearchActivate] = useState(false) ;
   const [ctr,setCtr] = useState(1) ;
+  const [filters, setFilters] = useState(false) ;
 
   const handleTime = (e) => {
     setTime(e.target.value) ;
@@ -40,7 +41,7 @@ function HomePage(props) {
 
   const onChange = (e) => {
     setSearchText(e.target.value) ;
-    handleSearch(e,e.target.value,time,tag) ;
+    filters && handleSearch(e,e.target.value,time,tag) ;
   }
 
 
@@ -109,24 +110,27 @@ function HomePage(props) {
           icon={faSquareH}
           />
           <h1 className='hackernews'>
-            Hacker News
+            Hacker News {filters && 'Search'}
           </h1> 
         </div>
 
         <div className='latest-news'>
         <ul>
-          <li><a href="" onClick={() => {setSearchActivate(false)}}>Latest News</a></li>
-          <li><a href="" onClick={() => {setSearchActivate(false)}}>Past</a></li>
-          <li><a href="" onClick={() => {setSearchActivate(false)}}>Comments</a></li>
-          <li><a href="" onClick={() => {setSearchActivate(false)}}>Ask</a></li>
-          {/* <li><a href="" onClick={() => {setSearchActivate(false)}}>Show</a></li> */}
+          <li><a href="" onClick={() => {setSearchActivate(false) ; setFilters(false);}}>Latest News</a></li>
+          <li><a href="" onClick={() => {setSearchActivate(false) ; setFilters(false);}}>Past</a></li>
+          <li><a href="" onClick={() => {setSearchActivate(false) ; setFilters(false);}}>Comments</a></li>
+          <li><a href="" onClick={() => {setSearchActivate(false) ; setFilters(false);}}>Ask</a></li>
         </ul>
         </div>
 
       </div>
 
       <div className='filters'>
-        <form onSubmit={(e) => handleSearch(e,searchText,time,tag)} >
+        <div>
+        <form onSubmit={(e) =>{
+          handleSearch(e,searchText,time,tag) ;
+          setFilters(true) ;
+        }} >
           <input
             type="text"
             onChange={onChange}
@@ -135,7 +139,8 @@ function HomePage(props) {
             // value={searchText}
           />
 
-          <label>
+          {filters && <>
+            <label>
             <select value={tag} className='dropdown' onChange={handleChange}>
               <option value="all">All</option>
               <option value="story">Stories</option>
@@ -163,6 +168,7 @@ function HomePage(props) {
               <option className='option' value="points">Popularity</option>
             </select>
           </label>
+          </>}
 
           <button type='Submit' className='search-btn'>
             Search
@@ -170,6 +176,7 @@ function HomePage(props) {
           </button>
 
         </form>
+        </div>
 
         
       </div>

@@ -1,10 +1,8 @@
 .tab{
     background-color: rgb(61, 188, 61);
     display: flex;
-    /* justify-content: space-around; */
-    gap: 53%;
+    justify-content: space-between;
     height: auto;
-    /* border-bottom: 1px solid rgb(147, 147, 147); */
     margin-bottom: 0.7rem;
 }
 
@@ -40,7 +38,6 @@ ul{
     list-style-type: none;
     text-align: center;
     margin-top: 1.2rem;
-    /* margin-right: -15%; */
 }
 
 ul li {
@@ -48,10 +45,8 @@ ul li {
 }
 
 ul li a {
-    /* text-decoration: none; */
     padding: 0.2em 1.1em;
     margin: 0 0 0 -6px;
-    /* color: rgb(61, 188, 61); */
     font-weight: 500;
     color: white;
 }
@@ -65,13 +60,16 @@ ul li a {
 
 .filters{
     padding-top: 0.8rem;
-    padding-left: 24%;
     margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-around;
 }
 
+form {
+    display: inline;
+}
 
 .input {
-    /* border-radius: 4px; */
     color: rgb(151, 148, 148);
     background: transparent;
     color: grey;
@@ -96,9 +94,6 @@ ul li a {
     cursor: pointer;
 }
 
-form {
-    display: inline;
-}
 
 label{
     font-size: 1rem;
