@@ -15,7 +15,7 @@ const BASE_PATH = 'https://hn.algolia.com/api/v1/' ;
 function HomePage(props) {
 
   const [allStoryIds, setAllStoryIds] = useState([]) ;
-  const [count,setCount] = useState(0) ;
+  const [count,setCount] = useState(20) ;
   const [searchText,setSearchText] = useState('') ;
   const [tag, setTag] = useState('story');
   const [sort,setSortBy] = useState('points') ;
@@ -184,7 +184,7 @@ function HomePage(props) {
           )) 
           : 
           <>
-          {allStoryIds.slice(count,count+20).map((id) => (
+          {allStoryIds.slice(0,count).map((id) => (
             <News key={id} id={id} searchActivate={searchActivate} item="" />
           ))}
 
