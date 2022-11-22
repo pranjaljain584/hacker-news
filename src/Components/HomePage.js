@@ -182,13 +182,15 @@ function HomePage(props) {
       </div>
 
       <div className='news-list'>
-          { searchActivate && resultList ? sortBy(resultList,sort).reverse().map((item,key) => (
+          { searchActivate ? <>
+            {resultList.length > 0 ? sortBy(resultList,sort).reverse().map((item,key) => (
             <News 
             key={key+30*ctr} 
             sort={sort} id={0} 
             searchActivate={searchActivate} item={item}
             />
-          )) 
+          )) : <p className='no-result'>No results to show !</p>}
+          </> 
           : 
           <>
           {allStoryIds.slice(0,count).map((id) => (

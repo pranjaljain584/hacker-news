@@ -123,3 +123,8 @@ select {
 .dropdown:focus {
     outline: none;
 }
+
+.no-result {
+    margin-left: 47%;
+    font-weight: 500;
+}
