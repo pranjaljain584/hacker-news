@@ -53,10 +53,10 @@ function HomePage(props) {
   const handleSearch = async (e,searchText2,time2,tag2) => {
     e.preventDefault() ;
 
-    if(searchText2===''){
-      setSearchActivate(false) ;
-      return ;
-    }
+    // if(searchText2===''){
+    //   setSearchActivate(false) ;
+    //   return ;
+    // }
 
     const searchType = time2 !== 'all time' ? 'search_by_date' : 'search' ;
     const searchTag = tag2 === 'all' ? '' : tag2 ;
